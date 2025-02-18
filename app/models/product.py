@@ -8,7 +8,6 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
 
-    # Associação: Produto pertence a um usuário (quem cadastrou)
     owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     owner = db.relationship("User", back_populates="products")
 
