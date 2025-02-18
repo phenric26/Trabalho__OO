@@ -1,4 +1,4 @@
-from database import db
+from app.models.database import db
 
 class Product(db.Model):
     __tablename__ = "product"
