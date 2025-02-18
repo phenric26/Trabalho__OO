@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+</head>
+<body>
+    <h1>Lista de Produtos</h1>
+
+    {% if session.get("is_admin") %}
+        <a href="{{ url_for('add_product') }}">
+            <button>Adicionar Produto</button>
+        </a>
+    {% endif %}
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+            {% if session.get("is_admin") %}
+                <th>Ações</th>
+            {% endif %}
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.price }}</td>
+            {% if session.get("is_admin") %}
+                <td>
+                    <a href="{{ url_for('update_product', product_id=product.id) }}">
+                        <button>Editar</button>
+                    </a>
+                    <a href="{{ url_for('delete_product', product_id=product.id) }}">
+                        <button>Excluir</button>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
