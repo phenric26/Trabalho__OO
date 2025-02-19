@@ -48,13 +48,16 @@ def cadastrar():
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash("Erro: Nome de usuário já está em uso.", "danger")
-            return redirect(url_for('cadastro'))  # Redireciona para a página de cadastro
+            return redirect(url_for('cadastrar'))  # Redireciona para a página de cadastro
 
         # Se o nome de usuário for único, cria um novo usuário
         new_user = User(username=username, is_admin=admin)
         new_user.set_password(password)  # Método para armazenar a senha de forma segura
         db.session.add(new_user)
         db.session.commit()
+        
+        login_user(username, password)
+
 
         flash("Usuário cadastrado com sucesso!", "success")
         return redirect(url_for("estoque"))  # Redireciona após cadastro bem-sucedido
@@ -94,7 +97,7 @@ def update_product_route(product_id):
         update_product(product_id, name, quantity, price)  # Chama a função de atualização
         flash("Produto atualizado com sucesso!", "success")
         return redirect(url_for('estoque'))
-    return render_template('edit_product.html', product=product)
+    return render_template('update_product.html', product=product)
 
 @app.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product_route(product_id):
