@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from app.models.product import Product
 from app.models.database import db
 
@@ -9,7 +9,8 @@ def list_products():
 
 # Adiciona um novo produto ao banco de dados
 def add_product(name, quantity, price):
-    product = Product(name=name, quantity=quantity, price=price)
+    owner_id = session.get('user_id')
+    product = Product(name=name, quantity=quantity, price=price, owner_id=owner_id)
     db.session.add(product)  # Adiciona o produto à sessão
     db.session.commit()  # Confirma a transação no banco
 

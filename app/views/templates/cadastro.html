@@ -9,11 +9,9 @@
     <form method="post">
         Usuário: <input type="text" name="username"><br>
         Senha: <input type="password" name="password"><br>
-        <form action="{{ url_for('estoque') }}">
-            <button type="submit">Login</button>
-        </form>
-    </form>
-    <form action="{{ url_for('cadastrar') }}">
+        <label for="admin">Administrador:</label>
+        <input type="checkbox" id="admin" name="admin"><br>
+
         <button type="submit">Cadastrar</button>
     </form>
     

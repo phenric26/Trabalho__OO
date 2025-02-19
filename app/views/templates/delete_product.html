@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Produto</title>
+</head>
+<body>
+    <h1>Excluir Produto</h1>
+
+    <p>Tem certeza de que deseja excluir o produto <strong>{{ product.name }}</strong>?</p>
+
+    <form action="{{ url_for('delete_product_route', product_id=product.id) }}" method="POST">
+        <button type="submit">Sim, Excluir</button>
+    </form>
+
+    <br>
+
+    <!-- Botão para voltar ao estoque sem excluir -->
+    <a href="{{ url_for('estoque') }}">
+        <button>Cancelar</button>
+    </a>
+</body>
+</html>

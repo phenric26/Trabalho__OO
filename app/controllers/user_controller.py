@@ -11,6 +11,8 @@ def login_user(username, password):
         return True
     return False
 
+
+
 # Função para encerrar a sessão do usuário
 def logout_user():
     session.clear()  # Remove todas as informações da sessão
