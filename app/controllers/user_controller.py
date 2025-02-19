@@ -4,12 +4,14 @@ from app.models.database import db
 
 # Função para autenticar um usuário no sistema
 def login_user(username, password):
-    user = User.query.filter_by(username=username).first()  # Busca o usuário pelo nome
-    if user and user.check_password(password):  # Verifica a senha
-        session['user_id'] = user.id  # Armazena o ID do usuário na sessão
-        session['is_admin'] = user.is_admin  # Define o status de administrador na sessão
+    user = User.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+        session['user_id'] = user.id
+        session['is_admin'] = user.is_admin
+        session['is_super_admin'] = user.is_super_admin  # Adiciona a verificação de SuperAdmin
         return True
     return False
+
 
 
 

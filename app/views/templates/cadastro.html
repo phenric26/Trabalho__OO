@@ -11,9 +11,15 @@
         Senha: <input type="password" name="password"><br>
         <label for="admin">Administrador:</label>
         <input type="checkbox" id="admin" name="admin"><br>
+        <label for="superadmin">Super Administrador:</label>
+        <input type="checkbox" id="superadmin" name="superadmin"><br>
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Cadastrar-se</button>
     </form>
+
+    <a href="{{ url_for('homepage') }}">
+        <button>Voltar</button>
+    </a>
     
 </body>
 </html>

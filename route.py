@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from app.models.database import init_db
 from app.models.product import Product
+from app.models.user import User, Admin, SuperAdmin
 from app.controllers.user_controller import *
 from app.controllers.product_controller import *
 import os
@@ -42,6 +43,8 @@ def cadastrar():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        
+        superadmin = 'superadmin' in request.form
         admin = 'admin' in request.form  # Verifica se a opção admin foi marcada
 
         # Verifica se o usuário já existe no banco de dados
@@ -51,7 +54,7 @@ def cadastrar():
             return redirect(url_for('cadastrar'))  # Redireciona para a página de cadastro
 
         # Se o nome de usuário for único, cria um novo usuário
-        new_user = User(username=username, is_admin=admin)
+        new_user = User(username=username, is_admin=admin, is_super_admin = superadmin)
         new_user.set_password(password)  # Método para armazenar a senha de forma segura
         db.session.add(new_user)
         db.session.commit()
@@ -72,16 +75,19 @@ def logout():
     return redirect(url_for("homepage"))
 
 # Rota para exibir a lista de produtos no estoque
-@app.route("/estoque")
+@app.route('/estoque')
 def estoque():
-    return list_products()  # Chama a função que lista os produtos
+    # Recupera os produtos e seus donos usando join
+    products = db.session.query(Product, User.username).join(User).all()
+    return render_template('estoque.html', products=products)
+  # Chama a função que lista os produtos
 
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product_route():
     if request.method == 'POST':
         name = request.form['name']
-        quantity = request.form['quantity']
-        price = request.form['price']
+        quantity = int(request.form['quantity'])
+        price = float(request.form['price'])
         add_product(name, quantity, price)  # Chama a função add_product para adicionar o produto
         flash("Produto adicionado com sucesso!", "success")
         return redirect(url_for('estoque'))  # Redireciona para a página de estoque
@@ -111,5 +117,11 @@ def delete_product_route(product_id):
 
     return redirect(url_for('estoque'))  # Volta para a lista de produtos
 
+
+@app.route("/users")
+def list_users():
+    # Lógica para listar os usuários
+    users = User.query.all()  # Supondo que você esteja buscando todos os usuários do banco de dados
+    return render_template('list_users.html', users=users)
 
 

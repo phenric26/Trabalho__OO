@@ -8,9 +8,16 @@
 <body>
     <h1>Lista de Produtos</h1>
 
-    {% if session.get("is_admin") %}
+    {% if session.get("is_admin") or session.get("is_super_admin") %}
         <a href="{{ url_for('add_product_route') }}">
             <button>Adicionar Produto</button>
+        </a>
+    {% endif %}
+
+    {% if session.get("is_super_admin") %}
+        <!-- Botão para acessar a lista de usuários -->
+        <a href="{{ url_for('list_users') }}">
+            <button>Lista de Usuários</button>
         </a>
     {% endif %}
 
@@ -21,17 +28,20 @@
                 <th>Nome</th>
                 <th>Quantidade</th>
                 <th>Preço</th>
-                {% if session.get("is_admin") %}
+                {% if session.get("is_admin") or session.get("is_super_admin") %}
                     <th>Ações</th>
                 {% endif %}
+                {% if session.get("is_super_admin") %}
+                    <th>Adicionado por</th>
+                {% endif %}
             </tr>
-            {% for product in products %}
+            {% for product, username in products %}
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.quantity }}</td>
                 <td>{{ product.price }}</td>
-                {% if session.get("is_admin") %}
+                {% if session.get("is_admin") or session.get("is_super_admin") %}
                 <td>
                     <a href="{{ url_for('update_product_route', product_id=product.id) }}">
                         <button>Editar</button>
@@ -43,6 +53,9 @@
                         </button>
                     </form>
                 </td>
+                {% endif %}
+                {% if session.get("is_super_admin") %}
+                <td>{{ username }}</td>  <!-- Exibe o nome do usuário que adicionou o produto -->
                 {% endif %}
             </tr>
             {% endfor %}
@@ -57,7 +70,6 @@
     <a href="{{ url_for('logout') }}">
         <button>Logout</button>
     </a>
-
 
 </body>
 </html>
