@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if username %}
+            <h2>Bem-vindo, {{ username }}!</h2>
+            <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+        {% else %}
+            <h2>Você não está logado.</h2>
+            <a href="{{ url_for('login') }}"><button>Login</button></a>
+        {% endif %}
+    </div>
+</body>
+</html>
