@@ -1,17 +1,21 @@
-# Usa a imagem oficial do Python
-FROM python:3.10
+# Use uma imagem base do Python
+FROM python:3.11-slim
 
-# Define o diretório de trabalho dentro do contêiner
+# Define o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copia os arquivos do projeto para o contêiner
-COPY . .
+# Copie os arquivos de dependências
+COPY requirements.txt requirements.txt
 
-# Instala dependências do projeto
+# Instale as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expõe a porta padrão do Flask
+# Copie todo o código do projeto para dentro do contêiner
+COPY . .
+
+# Exponha a porta que a aplicação usará
 EXPOSE 5000
 
-# Comando para rodar o aplicativo
-CMD ["python", "app.py"]
+# Inicia o aplicativo Flask com SocketIO
+CMD ["python", "route.py"]
+

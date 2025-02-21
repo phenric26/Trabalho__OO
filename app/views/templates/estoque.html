@@ -60,5 +60,34 @@
         <br>
         <a href="{{ url_for('logout') }}" class="btn logout">Logout</a>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    var socket = io();  // Conectando ao WebSocket
+
+    socket.on("connect", function () {
+        console.log("🔌 Conectado ao servidor WebSocket");
+        socket.emit("request_stock");  // Pedir atualização do estoque ao conectar
+    });
+
+    socket.on("update_stock", function (data) {
+        console.log("📡 Atualização do estoque recebida", data);
+        atualizarEstoque(data);
+    });
+
+    function atualizarEstoque(produtos) {
+        let tabela = document.getElementById("tabela-estoque");
+        tabela.innerHTML = "";  // Limpa a tabela antes de atualizar
+
+        produtos.forEach(produto => {
+            let row = tabela.insertRow();
+            row.innerHTML = `
+                <td>${produto.name}</td>
+                <td>${produto.quantity}</td>
+                <td>R$ ${produto.price.toFixed(2)}</td>
+            `;
+        });
+    }
+</script>
 </body>
 </html>
