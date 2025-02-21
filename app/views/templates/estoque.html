@@ -3,73 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_estoque.css') }}">
     <title>Estoque</title>
 </head>
 <body>
-    <h1>Lista de Produtos</h1>
+    <div class="container">
+        <h1>Lista de Produtos</h1>
 
-    {% if session.get("is_admin") or session.get("is_super_admin") %}
-        <a href="{{ url_for('add_product_route') }}">
-            <button>Adicionar Produto</button>
-        </a>
-    {% endif %}
+        {% if session.get("is_admin") or session.get("is_super_admin") %}
+            <a href="{{ url_for('add_product_route') }}" class="btn">Adicionar Produto</a>
+        {% endif %}
 
-    {% if session.get("is_super_admin") %}
-        <!-- Botão para acessar a lista de usuários -->
-        <a href="{{ url_for('list_users') }}">
-            <button>Lista de Usuários</button>
-        </a>
-    {% endif %}
+        {% if session.get("is_super_admin") %}
+            <a href="{{ url_for('list_users') }}" class="btn">Lista de Usuários</a>
+        {% endif %}
 
-    {% if products %}
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Preço</th>
-                {% if session.get("is_admin") or session.get("is_super_admin") %}
-                    <th>Ações</th>
-                {% endif %}
-                {% if session.get("is_super_admin") %}
-                    <th>Adicionado por</th>
-                {% endif %}
-            </tr>
-            {% for product, username in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.price }}</td>
-                {% if session.get("is_admin") or session.get("is_super_admin") %}
-                <td>
-                    <a href="{{ url_for('update_product_route', product_id=product.id) }}">
-                        <button>Editar</button>
-                    </a>
-                    
-                    <form action="{{ url_for('delete_product_route', product_id=product.id) }}" method="POST" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este produto?');">
-                            Excluir
-                        </button>
-                    </form>
-                </td>
-                {% endif %}
-                {% if session.get("is_super_admin") %}
-                <td>{{ username }}</td>  <!-- Exibe o nome do usuário que adicionou o produto -->
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>Nenhum produto cadastrado no estoque.</p>
-    {% endif %}
+        {% if products %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                    {% if session.get("is_admin") or session.get("is_super_admin") %}
+                        <th>Ações</th>
+                    {% endif %}
+                    {% if session.get("is_super_admin") %}
+                        <th>Adicionado por</th>
+                    {% endif %}
+                </tr>
+                {% for product, username in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>R${{ "%.2f"|format(product.price) }}</td>
+                    {% if session.get("is_admin") or session.get("is_super_admin") %}
+                    <td class="actions">
+                        <a href="{{ url_for('update_product_route', product_id=product.id) }}" class="btn edit">Editar</a>
+                        
+                        <form action="{{ url_for('delete_product_route', product_id=product.id) }}" method="POST" class="delete-form">
+                            <button type="submit" class="btn delete" onclick="return confirm('Tem certeza que deseja excluir este produto?');">Excluir</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                    {% if session.get("is_super_admin") %}
+                    <td>{{ username }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="no-products">Nenhum produto cadastrado no estoque.</p>
+        {% endif %}
 
-    <br>
-
-    <!-- Botão de Logout -->
-    <a href="{{ url_for('logout') }}">
-        <button>Logout</button>
-    </a>
-
+        <br>
+        <a href="{{ url_for('logout') }}" class="btn logout">Logout</a>
+    </div>
 </body>
 </html>

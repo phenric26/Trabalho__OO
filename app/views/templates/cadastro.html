@@ -3,23 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_cadastro.css') }}">
     <title>Document</title>
 </head>
 <body>
-    <form method="post">
-        Usuário: <input type="text" name="username"><br>
-        Senha: <input type="password" name="password"><br>
-        <label for="admin">Administrador:</label>
-        <input type="checkbox" id="admin" name="admin"><br>
-        <label for="superadmin">Super Administrador:</label>
-        <input type="checkbox" id="superadmin" name="superadmin"><br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <form method="post">
+            Usuário: <input type="text" name="username"><br>
+            Senha: <input type="password" name="password"><br>
+            <div class="checkbox-group">
+                <input type="checkbox" id="admin" name="admin">
+                <label for="admin">Administrador</label>
+        
+                <input type="checkbox" id="superadmin" name="superadmin">
+                <label for="superadmin">Super Administrador</label>
+            </div>
+        
+        
 
-        <button type="submit">Cadastrar-se</button>
-    </form>
+            <button type="submit">Cadastrar-se</button>
+        </form>
 
-    <a href="{{ url_for('homepage') }}">
-        <button>Voltar</button>
-    </a>
+        <div class="back-container">
+            <a href="{{ url_for('homepage') }}">
+                <button>Voltar</button>
+            </a>
+        </div>
+    </div>
     
 </body>
 </html>

@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #003366;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 40%;
+    background: #003366;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="checkbox"] {
+    margin: 5px 0;
+}
+
+button {
+    width: 80%; /* Reduz a largura dos botões */
+    padding: 8px; /* Diminui a altura dos botões */
+    font-size: 14px;
+    margin-top: 15px;
+    text-align: center;
+    color: white;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #218838;
+}
+
+.back-container {
+    margin-top: 10px;
+}
+
+.back-container button {
+    width: 60%; 
+    padding: 8px;
+    font-size: 14px;
+    background: #007bff;
+}
+
+
+.back-container button:hover {
+    background: #0056b3;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center; /* Alinha os elementos verticalmente */
+    gap: 15px; /* Espaçamento entre os checkboxes */
+}
+
+.checkbox-group input {
+    margin: 0;
+    transform: translateY(2px); /* Ajusta a posição da caixinha para alinhar com o texto */
+}
+
+
+.flash-message {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flash-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+
